@@ -1,14 +1,10 @@
-import legacy from '@vitejs/plugin-legacy';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vitest/config';
+import tailwindcss from '@tailwindcss/vite';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), legacy()],
-  test: {
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-    // Playwright e2e specs live in e2e/.
-    include: ['src/**/*.test.{ts,tsx}'],
-  },
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
 });

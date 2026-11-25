@@ -1,0 +1,209 @@
+import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
+import { FaComments, FaXmark, FaArrowLeft, FaUserPlus } from 'react-icons/fa6';
+import { useAuth } from '../context/AuthContext';
+import { useAmigos } from '../context/AmigosContext';
+import { getRing } from '../lib/rings';
+import Avatar from './Avatar';
+import Conversa from './Conversa';
+
+// Modal sobreposto no mobile (e painel flutuante em telas maiores) com o chat do time e conversas privadas.
+export default function ChatFlutuante() {
+  const { usuario, perfil } = useAuth();
+  const {
+    amigos,
+    recebidos,
+    chatAberto,
+    setChatAberto,
+    conversaCom,
+    setConversaCom,
+    conversaTime,
+    setConversaTime,
+    abrirTime,
+    parCom,
+  } = useAmigos();
+
+  if (!usuario) return null;
+
+  const amigoAtual = amigos.find((a) => a.uid === conversaCom);
+  const pedidos = recebidos.length;
+  const anel = perfil?.anel;
+  const ring = getRing(anel);
+  const RingIcon = ring.Icon;
+
+  // Volta da conversa (time ou amigo) para a lista.
+  const voltarParaLista = () => {
+    setConversaCom(null);
+    setConversaTime(false);
+  };
+
+  return createPortal(
+    <>
+      {/* Modal / Painel de conversas */}
+      {chatAberto && (
+        <section
+          role="dialog"
+          aria-modal="true"
+          aria-label="Conversas privadas"
+          className="fixed inset-0 z-[70] flex flex-col overflow-hidden bg-card pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-2xl animate-scaleUp sm:inset-auto sm:bottom-24 sm:right-6 sm:h-[min(34rem,calc(100vh-8rem))] sm:w-full sm:max-w-sm sm:rounded-2xl sm:border sm:border-border sm:pt-0 sm:pb-0"
+        >
+          <header className="flex items-center gap-2 border-b border-border px-3 py-3">
+            {conversaTime ? (
+              <>
+                <button
+                  type="button"
+                  onClick={voltarParaLista}
+                  aria-label="Voltar para a lista de conversas"
+                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-foreground-muted hover:bg-foreground/5"
+                >
+                  <FaArrowLeft aria-hidden="true" />
+                </button>
+                <span className={`flex h-8 w-8 items-center justify-center rounded-full text-white dark:text-slate-950 ${ring.bg}`}>
+                  <RingIcon aria-hidden="true" />
+                </span>
+                <p className="min-w-0 flex-1 truncate font-bold text-foreground">Time {ring.label}</p>
+              </>
+            ) : amigoAtual ? (
+              <>
+                <button
+                  type="button"
+                  onClick={voltarParaLista}
+                  aria-label="Voltar para a lista de conversas"
+                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-foreground-muted hover:bg-foreground/5"
+                >
+                  <FaArrowLeft aria-hidden="true" />
+                </button>
+                <Avatar nome={amigoAtual.perfil?.nome} anel={amigoAtual.perfil?.anel} fotoId={amigoAtual.perfil?.avatarId} tamanho="sm" />
+                <p className="min-w-0 flex-1 truncate font-bold text-foreground">{amigoAtual.perfil?.nome || 'Amigo'}</p>
+              </>
+            ) : (
+              <p className="flex-1 px-2 font-bold text-foreground">Conversas</p>
+            )}
+            <button
+              type="button"
+              onClick={() => setChatAberto(false)}
+              aria-label="Fechar conversas"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-foreground-muted hover:bg-foreground/5"
+            >
+              <FaXmark aria-hidden="true" />
+            </button>
+          </header>
+
+          {conversaTime && anel ? (
+            <div className="min-h-0 flex-1">
+              <Conversa
+                key={anel}
+                caminho={['times', anel, 'mensagens']}
+                titulo={`Chat do Time ${ring.label}`}
+                subtitulo="Só protetores deste elemento participam"
+                usuarioUid={usuario.uid}
+                compacto
+              />
+            </div>
+          ) : amigoAtual ? (
+            <div className="min-h-0 flex-1">
+              <Conversa
+                key={amigoAtual.uid}
+                caminho={['conversas', parCom(amigoAtual.uid), 'mensagens']}
+                titulo={`Conversa com ${amigoAtual.perfil?.nome || 'amigo'}`}
+                subtitulo="Só vocês dois veem estas mensagens"
+                usuarioUid={usuario.uid}
+                fotosMembros={{ [amigoAtual.uid]: amigoAtual.perfil?.avatarId }}
+                compacto
+              />
+            </div>
+          ) : (
+            <div className="flex-1 overflow-y-auto p-2">
+              {/* Chat do time: o elemento do anel favorito */}
+              <button
+                type="button"
+                onClick={abrirTime}
+                className="mb-1 flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-foreground/5"
+              >
+                <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg text-white dark:text-slate-950 ${ring.bg}`}>
+                  <RingIcon aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold text-foreground">Time {ring.label}</span>
+                  <span className="block truncate text-xs text-foreground-muted">Chat do seu elemento</span>
+                </span>
+              </button>
+
+              <div className="my-2 flex items-center gap-3 px-1 text-[11px] font-bold uppercase tracking-wider text-foreground-muted">
+                <span className="h-px flex-1 bg-border" />
+                Amigos
+                <span className="h-px flex-1 bg-border" />
+              </div>
+
+              {pedidos > 0 && (
+                <Link
+                  to="/amigos"
+                  onClick={() => setChatAberto(false)}
+                  className="mb-2 flex items-center gap-2 rounded-xl bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary-text hover:bg-primary/15"
+                >
+                  <FaUserPlus aria-hidden="true" />
+                  {pedidos} {pedidos === 1 ? 'pedido de amizade' : 'pedidos de amizade'}
+                </Link>
+              )}
+
+              {amigos.length === 0 ? (
+                <div className="flex flex-col items-center justify-center px-6 py-10 text-center">
+                  <FaComments aria-hidden="true" className="text-3xl text-primary/40" />
+                  <p className="mt-3 font-bold text-foreground">Nenhum amigo ainda</p>
+                  <p className="mt-1 text-sm text-foreground-muted">Adicione protetores para conversar em particular.</p>
+                  <Link
+                    to="/amigos"
+                    onClick={() => setChatAberto(false)}
+                    className="mt-4 rounded-lg bg-primary-dark px-4 py-2 text-sm font-bold text-white dark:text-slate-950"
+                  >
+                    Encontrar amigos
+                  </Link>
+                </div>
+              ) : (
+                <ul>
+                  {amigos.map((amigo) => (
+                    <li key={amigo.uid}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setConversaTime(false);
+                          setConversaCom(amigo.uid);
+                        }}
+                        className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-foreground/5"
+                      >
+                        <Avatar nome={amigo.perfil?.nome} anel={amigo.perfil?.anel} fotoId={amigo.perfil?.avatarId} />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-bold text-foreground">{amigo.perfil?.nome || 'Carregando...'}</span>
+                          <span className="block truncate text-xs text-foreground-muted">{amigo.perfil?.cidade || 'Protetor da Terra'}</span>
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Balão (fica oculto quando o modal está aberto no mobile para não atrapalhar) */}
+      <button
+        type="button"
+        onClick={() => setChatAberto(!chatAberto)}
+        aria-label={chatAberto ? 'Fechar conversas' : 'Abrir conversas'}
+        aria-expanded={chatAberto}
+        className={`fixed bottom-20 right-4 z-[60] flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary-dark text-xl text-white shadow-xl shadow-primary/30 transition hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:bottom-6 sm:right-6 dark:text-slate-950 ${
+          chatAberto ? 'hidden sm:flex' : 'flex'
+        }`}
+      >
+        {chatAberto ? <FaXmark aria-hidden="true" /> : <FaComments aria-hidden="true" />}
+        {!chatAberto && pedidos > 0 && (
+          <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-ring-fire px-1 text-[11px] font-black text-white">
+            {pedidos}
+          </span>
+        )}
+      </button>
+    </>,
+    document.body
+  );
+}

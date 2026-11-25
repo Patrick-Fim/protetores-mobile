@@ -2,35 +2,25 @@
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>Os Protetores da Terra</title>
-
+    <title>Os Protetores da Terra - Movimento Ambiental</title>
+    <meta name="description" content="Plataforma para engajamento em causas ambientais e registro de denúncias." />
     <base href="/" />
-
     <meta name="color-scheme" content="light dark" />
     <meta
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="shortcut icon" type="image/png" href="/public/icon.svg" />
-
-    <!-- Fontes do projeto -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:ital,wght@0,700;0,800;0,900;1,700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- add to homescreen for ios -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Capitão Planeta" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          var d = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (d) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-background text-foreground antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

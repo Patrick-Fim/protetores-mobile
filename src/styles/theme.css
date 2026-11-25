@@ -1,0 +1,176 @@
+:root {
+    /* Tokens do tema claro, reutilizados pelas classes utilitárias da interface. */
+    /* Cores Principais - Capitão Planeta (Modo Claro) */
+    --primary: #0096C7;            /* Para botões e elementos visuais */
+    --primary-dark: #0077B6;       /* Para hover */
+    --primary-text: #005F73;       /* Para textos azuis (WCAG AA) */
+  
+    --foreground: #03045E;         /* Títulos e textos principais */
+    --foreground-muted: #1E293B;   /* Textos secundários */
+  
+    --accent: #00AB39;             /* Para botões e badges */
+    --accent-text: #006823;        /* Para textos verdes em fundo claro */
+  
+    --background: #F0F9FF;
+    --card: #FFFFFF;
+    --border: rgba(0, 119, 182, 0.25);
+  
+    --danger-text: #B91C1C;        /* Mensagens de erro (WCAG AA) */
+  
+    /* Chat: bolha das próprias mensagens e das mensagens dos outros */
+    --bolha-propria: #0077B6;
+    --bolha-propria-texto: #FFFFFF;
+    --bolha-outra: #FFFFFF;
+    --bolha-outra-texto: #03045E;
+  
+    /* Barras de rolagem (finas, na cor do tema) */
+    --scrollbar: rgba(0, 119, 182, 0.35);
+    --scrollbar-hover: rgba(0, 119, 182, 0.6);
+  
+    /* Faz os controles nativos do navegador (rolagem, campos) seguirem o tema */
+    color-scheme: light;
+  
+    /* Anéis Elementais */
+    --ring-earth: #2E7D32;
+    --ring-fire: #D62828;
+    --ring-wind: #0077B6;
+    --ring-water: #023E8A;
+    --ring-heart: #B71C1C;
+  
+    /* Tipografia */
+    --font-display: "Montserrat", sans-serif;
+    --font-body: "Inter", sans-serif;
+  
+    /* Ponte Ionic (Modo Claro) */
+    --ion-font-family: var(--font-body);
+    --ion-background-color: var(--background);
+    --ion-background-color-rgb: 240, 249, 255;
+    --ion-text-color: var(--foreground);
+    --ion-text-color-rgb: 3, 4, 94;
+  
+    --ion-card-background: var(--card);
+    --ion-item-background: var(--card);
+    --ion-toolbar-background: var(--card);
+    --ion-toolbar-color: var(--foreground);
+    --ion-border-color: var(--border);
+  
+    --ion-color-primary: #0096C7;
+    --ion-color-primary-rgb: 0, 150, 199;
+    --ion-color-primary-contrast: #FFFFFF;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #0077B6;
+    --ion-color-primary-tint: #1aa1cd;
+  
+    --ion-color-secondary: #00AB39;
+    --ion-color-secondary-rgb: 0, 171, 57;
+    --ion-color-secondary-contrast: #FFFFFF;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #009632;
+    --ion-color-secondary-tint: #1ab34d;
+  
+    --ion-color-danger: #B91C1C;
+    --ion-color-danger-rgb: 185, 28, 28;
+    --ion-color-danger-contrast: #FFFFFF;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #a31919;
+    --ion-color-danger-tint: #c03333;
+  }
+  
+  /* Modo Escuro (Dark Mode) com Alto Contraste */
+  .dark {
+    --primary: #00B4D8;
+    --primary-dark: #90E0EF;
+    --primary-text: #90E0EF;
+  
+    --foreground: #F8FAFC;
+    --foreground-muted: #CBD5E1;
+  
+    --accent: #10B981;
+    --accent-text: #6EE7B7;
+  
+    --background: #0F172A;
+    --card: #1E293B;
+    --border: rgba(144, 224, 239, 0.25);
+  
+    --danger-text: #FCA5A5;
+  
+    --bolha-propria: #155E75;
+    --bolha-propria-texto: #F0F9FF;
+    --bolha-outra: #334155;
+    --bolha-outra-texto: #F8FAFC;
+  
+    --scrollbar: rgba(144, 224, 239, 0.28);
+    --scrollbar-hover: rgba(144, 224, 239, 0.5);
+  
+    color-scheme: dark;
+  
+    /* Anéis Elementais ajustados para o fundo escuro */
+    --ring-earth: #10B981;
+    --ring-fire: #EF4444;
+    --ring-wind: #38BDF8;
+    --ring-water: #60A5FA;
+    --ring-heart: #F87171;
+  
+    /* Ponte Ionic (Modo Escuro) */
+    --ion-background-color: var(--background);
+    --ion-background-color-rgb: 15, 23, 42;
+    --ion-text-color: var(--foreground);
+    --ion-text-color-rgb: 248, 250, 252;
+  
+    --ion-card-background: var(--card);
+    --ion-item-background: var(--card);
+    --ion-toolbar-background: var(--card);
+    --ion-toolbar-color: var(--foreground);
+    --ion-border-color: var(--border);
+  
+    --ion-color-primary: #00B4D8;
+    --ion-color-primary-rgb: 0, 180, 216;
+    --ion-color-primary-contrast: #0F172A;
+    --ion-color-primary-contrast-rgb: 15, 23, 42;
+    --ion-color-primary-shade: #009ebe;
+    --ion-color-primary-tint: #1abcdc;
+  
+    --ion-color-secondary: #10B981;
+    --ion-color-secondary-rgb: 16, 185, 129;
+    --ion-color-secondary-contrast: #0F172A;
+    --ion-color-secondary-contrast-rgb: 15, 23, 42;
+    --ion-color-secondary-shade: #0ea372;
+    --ion-color-secondary-tint: #28c08e;
+  
+    --ion-color-danger: #EF4444;
+    --ion-color-danger-rgb: 239, 68, 68;
+    --ion-color-danger-contrast: #FFFFFF;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #d23c3c;
+    --ion-color-danger-tint: #f15757;
+  }
+  
+  @theme inline {
+    /* Expõe as variáveis CSS como cores e fontes para as classes do Tailwind. */
+    --color-primary: var(--primary);
+    --color-primary-dark: var(--primary-dark);
+    --color-primary-text: var(--primary-text);
+    --color-foreground: var(--foreground);
+    --color-foreground-muted: var(--foreground-muted);
+    --color-accent: var(--accent);
+    --color-accent-text: var(--accent-text);
+    --color-background: var(--background);
+    --color-card: var(--card);
+    --color-border: var(--border);
+    --color-danger-text: var(--danger-text);
+  
+    --color-bolha-propria: var(--bolha-propria);
+    --color-bolha-propria-texto: var(--bolha-propria-texto);
+    --color-bolha-outra: var(--bolha-outra);
+    --color-bolha-outra-texto: var(--bolha-outra-texto);
+    --color-scrollbar: var(--scrollbar);
+  
+    --color-ring-earth: var(--ring-earth);
+    --color-ring-fire: var(--ring-fire);
+    --color-ring-wind: var(--ring-wind);
+    --color-ring-water: var(--ring-water);
+    --color-ring-heart: var(--ring-heart);
+  
+    --font-display: var(--font-display);
+    --font-sans: var(--font-body);
+  }
